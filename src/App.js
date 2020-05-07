@@ -17,7 +17,12 @@ class App extends React.Component {
   };
 
   handleInputClick(event) {
-
+    const cell = event.target.id;
+     let newVal = parseInt(document.getElementById("txtbx").value) + 1
+     if (newVal === 10) {
+      newVal = 1;
+     }
+     document.getElementById(cell).value = newVal;
   }
 
   render() {
@@ -27,9 +32,8 @@ class App extends React.Component {
         <input 
           value={this.state.puzzle[0]}
           type="text" 
-          name="txtbx" 
           id="txtbx"
-          onClick={() => document.getElementById("txtbx").value = parseInt(document.getElementById("txtbx").value) + 1}
+          onClick={this.handleInputClick}
         />
       </div>
     );
