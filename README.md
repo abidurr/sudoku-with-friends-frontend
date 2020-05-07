@@ -1,3 +1,6 @@
+# sudoku-with-a-friend-frontend
+## The front end react version of Sudoku with a Friend.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
