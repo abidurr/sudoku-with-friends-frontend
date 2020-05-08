@@ -23,13 +23,23 @@ body {
     height: 100vh;
 }
 
+h1 {
+    text-align: center;
+}
+
 input {
     font-family: "Roboto Mono", monospace;
+    border: 1px solid gray;
     padding: 5px;
-    border: none;
     text-align: center;
     font-size: 30px;
-    width: 30px;
-    cursor: pointer;
-    
+    width: 40px;
+    cursor: pointer;   
+}
+
+form {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+
+
 }
