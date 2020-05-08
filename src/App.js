@@ -1,7 +1,13 @@
 import React from 'react';
+import * as store from './store';
 import './App.css';
 
 class App extends React.Component {
+  componentDidMount() {
+    store.connectToServer((board) => console.log(board));
+    store.createBoard();
+    store.subscribeToUpdatedCells(cells => console.log(cells));
+  }
   constructor(props) {
     super(props);
 

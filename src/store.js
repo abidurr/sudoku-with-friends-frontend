@@ -14,6 +14,7 @@ export function connectToServer(jB, uC, sR, eO) {
     errorOccurred = eO;
     
     socket = io.connect(BASE_URL);
+    
     socket.on("connect", function (data) {
         console.log("Connected to server!");
     });
