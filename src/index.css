@@ -34,12 +34,22 @@ input {
     text-align: center;
     font-size: 30px;
     width: 40px;
-    cursor: pointer;   
+    cursor: pointer;
+
 }
 
 form {
     display: grid;
     grid-template-columns: repeat(9, 1fr);
-
-
+    grid-gap: 1px;
+    grid-template-areas:
+        "z z z . z z z . z z z"
+        "z z z . z z z . z z z"
+        "z z z . z z z . z z z"
+        "z z z . z z z . z z z"
+        "z z z . z z z . z z z"
+        "z z z . z z z . z z z"
+        "z z z . z z z . z z z"
+        "z z z . z z z . z z z"
+        "z z z . z z z . z z z";
 }
