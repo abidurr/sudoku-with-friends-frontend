@@ -48,6 +48,7 @@ function App() {
         store.createBoard();
         store.subscribeToUpdatedCells((cells) => {
             const puzzle = cells;
+            console.log(puzzle);
         });
         
     });
