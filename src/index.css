@@ -38,6 +38,11 @@ input {
 
 }
 
+#info {
+    padding-bottom: 20px;
+    text-align: center;
+}
+
 form {
     display: grid;
     grid-template-columns: repeat(9, 1fr);

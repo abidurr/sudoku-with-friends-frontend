@@ -44,14 +44,20 @@ function App() {
     });
 
     useEffect(() => {
-        store.connectToServer((board) => console.log(board));
+        store.connectToServer((board) => document.getElementById("server").innerHTML = board);
         store.createBoard();
-        store.subscribeToUpdatedCells((cells) => console.log(cells));
+        store.subscribeToUpdatedCells((cells) => {
+            const puzzle = cells;
+        });
+        
     });
 
     return (
         <div className="App">
             <h1>Sudoku With Friends</h1>
+            <div id="info">You are on board:
+            <div id="server"></div>
+            </div>
             <form>
                 {sudoku.puzzle.map((cell, index) => (
                     <Cell key={index} index={index} cellVal={cell} />
