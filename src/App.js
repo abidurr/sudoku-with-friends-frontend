@@ -6,10 +6,21 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            puzzle: [],
+            puzzle: new Array(81),
             solution: [],
             guess: [],
         };
+    }
+
+    cycleCell = (index, delta) => () => {
+        const val = this.state.puzzle[index];
+        const row = Math.floor(index / 9);
+        const col = index % 9;
+        let newVal = val + delta;
+        if (newVal < 1) newVal = 9;
+        if (newVal > 9) newVal = 1;
+        store.updateCell(row, col, newVal);
+        console.log(row, col, newVal);
     }
 
     componentDidMount() {
@@ -18,8 +29,9 @@ class App extends React.Component {
         );
         store.createBoard();
         store.subscribeToUpdatedCells((cells) => {
-            const puzz = cells.map(({ val }) => val);
-            this.setState({ puzzle: puzz });
+            const { puzzle } = this.state;
+            cells.forEach(({row, col, val}) => puzzle[row * 9 + col] = val);
+            this.setState({ puzzle });
         });
     }
 
@@ -35,7 +47,7 @@ class App extends React.Component {
                 </div>
                 <form>
                     {this.state.puzzle.map((val, index) => (
-                        <Cell key={index} index={index} cellVal={val} />
+                        <Cell key={index} index={index} cellVal={val} cycleUp={this.cycleCell(index, 1)} cycleDown={this.cycleCell(index, -1)}/>
                     ))}
                 </form>
             </div>
