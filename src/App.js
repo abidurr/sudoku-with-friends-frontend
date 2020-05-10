@@ -33,22 +33,15 @@ function handleInputClick(cellVal, index) {
 }
 
 function App() {
-    const [sudoku, setSudoku] = useState({
-      puzzle: [
-        0, 2, 0, 6, 0, 0, 0, 0, 9, 0, 0, 0, 3, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0,
-         0, 0, 6, 0, 0, 0, 0, 1, 0, 0, 0, 2, 5, 6, 0, 0, 2, 0, 0, 0, 0, 0, 0,
-          0, 0, 0, 6, 3, 0, 0, 1, 4, 0, 1, 7, 5, 0, 0, 0, 0, 0, 3, 8, 4, 0, 0,
-           0, 0, 0, 2, 0, 6, 0, 3, 0, 0, 7, 0
-      ],
-      solution: []
-    });
+    const [sudoku, setSudoku] = useState({puzzle: []});
 
     useEffect(() => {
         store.connectToServer((board) => document.getElementById("server").innerHTML = board);
         store.createBoard();
         store.subscribeToUpdatedCells((cells) => {
-            const puzzle = cells;
-            console.log(puzzle);
+            let puzz = [];
+            cells.map(( {row, col, val} ) => puzz.push(val))
+            setSudoku({puzzle: puzz}, [])
         });
         
     });
@@ -60,7 +53,7 @@ function App() {
             <div id="server"></div>
             </div>
             <form>
-                {sudoku.puzzle.map((cell, index) => (
+                {sudoku.puzzle.map((index, cell) => (
                     <Cell key={index} index={index} cellVal={cell} />
                 ))}
             </form>
