@@ -1,9 +1,10 @@
 import React from 'react'
 
-export default function Test() {
+export default function Test({val, onClick}) {
+    alert("Hello");
     return (
-        <div>
-            
+        <div onClick={onClick}>
+            hi: {val}
         </div>
     )
 }
