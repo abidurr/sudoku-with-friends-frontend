@@ -43,7 +43,10 @@ class App extends React.Component {
                     You are on board:
                     <div id="server"></div>
                     <input type="text" name="join-board" id="join-board" />
-                    <button id="join-button">Join Board</button>
+                    <button id="join-button" onClick={() => {
+                        const boardName = document.getElementById("join-board").value;
+                        store.joinBoard(boardName);
+                    }}>Join Board</button>
                 </div>
                 <form>
                     {this.state.puzzle.map((val, index) => (
