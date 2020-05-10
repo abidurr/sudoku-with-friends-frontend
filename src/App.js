@@ -1,7 +1,6 @@
 import React from "react";
 import * as store from "./store";
 import Cell from "./components/Cell";
-import Test from "./Test"
 
 class App extends React.Component {
     constructor(props) {
@@ -10,12 +9,10 @@ class App extends React.Component {
             puzzle: [],
             solution: [],
             guess: [],
-            globalVal: 10,
         };
     }
 
     componentDidMount() {
-        alert("called");
         store.connectToServer(
             (board) => (document.getElementById("server").innerHTML = board)
         );
@@ -29,15 +26,16 @@ class App extends React.Component {
     render() {
         return (
             <div className="App">
-                <Test val={this.state.globalVal} onClick={() => this.setState({globalVal: this.state.globalVal + 1})} />
                 <h1>Sudoku With Friends</h1>
                 <div id="info">
                     You are on board:
                     <div id="server"></div>
+                    <input type="text" name="join-board" id="join-board" />
+                    <button id="join-button">Join Board</button>
                 </div>
                 <form>
-                    {this.state.puzzle.map((cell, index) => (
-                        <Cell key={index} index={index} cellVal={cell} />
+                    {this.state.puzzle.map((val, index) => (
+                        <Cell key={index} index={index} cellVal={val} />
                     ))}
                 </form>
             </div>

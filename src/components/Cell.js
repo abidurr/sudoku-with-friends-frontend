@@ -9,7 +9,6 @@ function handleInputClick(cellVal, index) {
 }
 
 export default function Cell({ cellVal, index }) {
-    // alert("changed and called");
     if (cellVal === 0) {
         return (
             <input
