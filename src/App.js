@@ -1,64 +1,42 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import * as store from "./store";
+import Cell from "./components/Cell"
 
-function Cell({ cellVal, index }) {
-    if (cellVal === 0) {
-        return (
-            <input
-                value={cellVal}
-                type="text"
-                id={`txtbx${index}`}
-                onClick={() => handleInputClick(cellVal, index)}
-            />
-        );
-    } else {
-        return (
-            <input
-                value={cellVal}
-                type="text"
-                readOnly={true}
-                id={`txtbx${index}`}
-                style={{ background: "lightblue" }}
-            />
-        );
-    }
-}
 
-function handleInputClick(cellVal, index) {
-    let newVal = parseInt(document.getElementById(`txtbx${index}`).value) + 1;
-    if (newVal === 10) {
-        newVal = 1;
-    }
-    document.getElementById(`txtbx${index}`).value = newVal;
-}
+class App extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+          puzzle: [],
+          solution: [],
+          guess: []
+        };
+      };
 
-function App() {
-    const [sudoku, setSudoku] = useState({puzzle: []});
-
-    useEffect(() => {
+    componentDidMount() {
+        alert("called");
         store.connectToServer((board) => document.getElementById("server").innerHTML = board);
         store.createBoard();
         store.subscribeToUpdatedCells((cells) => {
-            let puzz = [];
-            cells.map(( {row, col, val} ) => puzz.push(val))
-            setSudoku({puzzle: puzz}, [])
+            const puzz = cells.map(({val}) => val);
+            this.setState({puzzle: puzz});
         });
-        
-    });
+    }
 
-    return (
+    render() {
+        return (
         <div className="App">
             <h1>Sudoku With Friends</h1>
             <div id="info">You are on board:
             <div id="server"></div>
             </div>
             <form>
-                {sudoku.puzzle.map((index, cell) => (
+                {this.state.puzzle.map((cell, index) => (
                     <Cell key={index} index={index} cellVal={cell} />
                 ))}
             </form>
         </div>
-    );
+    )}
 }
 
 export default App;
