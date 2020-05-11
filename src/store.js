@@ -1,5 +1,7 @@
+import axios from 'axios';
 import io from 'socket.io-client';
 const BASE_URL = "https://lit-ocean-30640.herokuapp.com/";
+
 
 let socket = undefined;
 let joinedBoard = undefined;
@@ -12,33 +14,33 @@ export function connectToServer(jB, uC, sR, eO) {
     updatedCells = uC;
     submissionResult = sR;
     errorOccurred = eO;
-    
+
     socket = io.connect(BASE_URL);
-    
+
     socket.on("connect", function (data) {
         console.log("Connected to server!");
     });
 
     socket.on("joinedBoard", (channelName) => {
-        if (typeof(joinedBoard) === 'function') {
+        if (typeof (joinedBoard) === 'function') {
             joinedBoard(channelName);
         }
     });
 
     socket.on("updatedCells", (cells) => {
-        if (typeof(updatedCells) === 'function') {
+        if (typeof (updatedCells) === 'function') {
             updatedCells(cells);
         }
     });
 
     socket.on("submissionResult", (res) => {
-        if (typeof(submissionResullt) === 'function') {
+        if (typeof (submissionResullt) === 'function') {
             submissionResult(res);
         }
     });
 
-    socket.on("errorOccurred", (err) =>{
-        if (typeof(errorOccurred) === 'function') {
+    socket.on("errorOccurred", (err) => {
+        if (typeof (errorOccurred) === 'function') {
             errorOccurred(err);
         }
     });
@@ -71,5 +73,11 @@ export function subscribeToSubmissionResult(fn) {
 }
 export function subscribeToErrorOccurred(fn) {
     errorOccurred = fn;
+}
+
+export function getUneditableCells(boardName, fn) {
+    axios.get(`https://lit-ocean-30640.herokuapp.com/status/${boardName}`)
+    .then(res => fn(res.data))
+    .catch(err => alert(err)); 
 }
 

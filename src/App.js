@@ -7,8 +7,7 @@ class App extends React.Component {
         super(props);
         this.state = {
             puzzle: new Array(81),
-            solution: [],
-            guess: [],
+            uneditable: new Array(81),
         };
     }
 
@@ -24,9 +23,17 @@ class App extends React.Component {
     };
 
     componentDidMount() {
-        store.connectToServer(
-            (board) => (document.getElementById("server").innerHTML = board)
-        );
+        store.connectToServer((board) => {
+            document.getElementById("server").innerHTML = board;
+            store.getUneditableCells(board, (status) => {
+                console.log(JSON.stringify(status, undefined, 4));
+                let uneditable = new Array(81);
+                status.uneditable.forEach(({ row, col }) => {
+                    uneditable[row * 9 + col] = true;
+                });
+                this.setState({ uneditable });
+            });
+        });
         store.createBoard();
         store.subscribeToUpdatedCells((cells) => {
             const { puzzle } = this.state;
@@ -61,6 +68,7 @@ class App extends React.Component {
                             key={index}
                             index={index}
                             cellVal={val}
+                            uneditable={this.state.uneditable[index]}
                             cycleUp={this.cycleCell(index, 1)}
                             cycleDown={this.cycleCell(index, -1)}
                         />
@@ -72,8 +80,12 @@ class App extends React.Component {
                     <button>Submit Guess</button>
                 </div>
                 <div id="help">
-                    <abbr title="Send your friend(s) the ID of the board or join theirs.
-                    Left or right click on a cell to scroll between numbers."><i>Help?</i></abbr>
+                    <abbr
+                        title="Send your friend(s) the ID of the board or join theirs.
+                    Left or right click on a cell to scroll between numbers."
+                    >
+                        <i>Help?</i>
+                    </abbr>
                 </div>
             </div>
         );

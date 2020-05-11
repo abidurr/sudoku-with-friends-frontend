@@ -9,28 +9,24 @@ function handleInputClick(cellVal, index) {
 }
 **/
 
-export default function Cell({ cellVal, index, cycleUp, cycleDown, typeIn }) {
-    if (cellVal === 0) {
+export default function Cell({ cellVal, uneditable, index, cycleUp, cycleDown, typeIn }) {
+    if (uneditable) {
         return (
             <input
-                defaultValue={""}
+                value={cellVal}
                 type="text"
-                //min={1}
-                //max={9}
+                readOnly={true}
                 id={`txtbx${index}`}
-                onClick={cycleUp}
-                onContextMenu={(e) => { e.preventDefault(); cycleDown(); }}
-                onChange={typeIn}
+                style={{ background: "lightblue" }}
             />
         );
     } else {
         return (
             <input
-                value={cellVal}
+                value={cellVal===0 ? "" : cellVal}
+                style={{ background: "white"}}
                 type="text"
-                //readOnly={true}
                 id={`txtbx${index}`}
-                style={{ background: "lightblue" }}
                 onClick={cycleUp}
                 onContextMenu={(e) => { e.preventDefault(); cycleDown(); }}
                 onChange={typeIn}
