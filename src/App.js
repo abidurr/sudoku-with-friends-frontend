@@ -77,12 +77,22 @@ class App extends React.Component {
                 <div id="check">
                     <div id="timer">Timer:</div>
                     <div id="penalty">Penalty:</div>
-                    <button>Submit Guess</button>
+                    <button
+                        id="submit-board"
+                        onClick={() => {
+                            const boardName = document.getElementById(
+                                "join-board"
+                            ).value;
+                            store.submitBoard(boardName);
+                        }}
+                    >
+                    Submit Guess
+                    </button>
                 </div>
                 <div id="help">
                     <abbr
                         title="Send your friend(s) the ID of the board or join theirs.
-                    Left or right click on a cell to scroll between numbers."
+                    Left or right click on a cell to cycle between numbers."
                     >
                         <i>Help?</i>
                     </abbr>
