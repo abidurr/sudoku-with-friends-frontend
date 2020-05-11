@@ -16,8 +16,8 @@ class App extends React.Component {
         const row = Math.floor(index / 9);
         const col = index % 9;
         let newVal = val + delta;
-        if (newVal < 1) newVal = 9;
-        if (newVal > 9) newVal = 1;
+        if (newVal < 0) newVal = 9;
+        if (newVal > 9) newVal = 0;
         store.updateCell(row, col, newVal);
         console.log(row, col, newVal);
     };

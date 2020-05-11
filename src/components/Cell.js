@@ -17,13 +17,15 @@ export default function Cell({ cellVal, uneditable, index, cycleUp, cycleDown, t
                 type="text"
                 readOnly={true}
                 id={`txtbx${index}`}
+                onContextMenu={(e) => { e.preventDefault() }}
                 style={{ background: "lightblue" }}
+    
             />
         );
     } else {
         return (
             <input
-                value={cellVal===0 ? "" : cellVal}
+                value={cellVal === 0 ? "" : cellVal}
                 style={{ background: "white"}}
                 type="text"
                 id={`txtbx${index}`}
