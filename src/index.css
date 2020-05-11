@@ -39,6 +39,10 @@ input {
     user-select: none;
 }
 
+input:hover {
+    border: 1px solid black;
+}
+
 #info {
     padding-bottom: 20px;
     text-align: center;
