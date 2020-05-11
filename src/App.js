@@ -21,7 +21,7 @@ class App extends React.Component {
         if (newVal > 9) newVal = 1;
         store.updateCell(row, col, newVal);
         console.log(row, col, newVal);
-    }
+    };
 
     componentDidMount() {
         store.connectToServer(
@@ -30,7 +30,7 @@ class App extends React.Component {
         store.createBoard();
         store.subscribeToUpdatedCells((cells) => {
             const { puzzle } = this.state;
-            cells.forEach(({row, col, val}) => puzzle[row * 9 + col] = val);
+            cells.forEach(({ row, col, val }) => (puzzle[row * 9 + col] = val));
             this.setState({ puzzle });
         });
     }
@@ -43,16 +43,37 @@ class App extends React.Component {
                     You are on board:
                     <div id="server"></div>
                     <input type="text" name="join-board" id="join-board" />
-                    <button id="join-button" onClick={() => {
-                        const boardName = document.getElementById("join-board").value;
-                        store.joinBoard(boardName);
-                    }}>Join Board</button>
+                    <button
+                        id="join-button"
+                        onClick={() => {
+                            const boardName = document.getElementById(
+                                "join-board"
+                            ).value;
+                            store.joinBoard(boardName);
+                        }}
+                    >
+                        Join Board
+                    </button>
                 </div>
-                <form>
+                <form id="sudoku-board">
                     {this.state.puzzle.map((val, index) => (
-                        <Cell key={index} index={index} cellVal={val} cycleUp={this.cycleCell(index, 1)} cycleDown={this.cycleCell(index, -1)}/>
+                        <Cell
+                            key={index}
+                            index={index}
+                            cellVal={val}
+                            cycleUp={this.cycleCell(index, 1)}
+                            cycleDown={this.cycleCell(index, -1)}
+                        />
                     ))}
                 </form>
+                <div id="check">
+                    <div id="timer">Timer:</div>
+                    <div id="penalty">Penalty:</div>
+                    <button>Submit Guess</button>
+                </div>
+                <div id="help">
+                    <abbr title="Send your friend(s) the ID of the board or join theirs. Left or right click on a cell to scroll between numbers.">Help?</abbr>
+                </div>
             </div>
         );
     }

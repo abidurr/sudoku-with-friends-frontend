@@ -29,7 +29,7 @@ h1 {
 
 input {
     font-family: "Roboto Mono", monospace;
-    border: 1px solid gray;
+    border: 1px solid gray; 
     padding: 5px;
     text-align: center;
     font-size: 30px;
@@ -57,12 +57,16 @@ input {
     font-family: "Roboto Mono", monospace;
     padding: 7px;
     margin: 5px;
+    background-color: lightblue;
+    cursor: pointer;
 }
 
-form {
+#sudoku-board {
+    background: url(./img/lines.png);
+    background-size: cover;
     display: grid;
     grid-template-columns: repeat(9, 1fr);
-    grid-gap: 1px;
+    grid-gap: 3px;
     grid-template-areas:
         "z z z . z z z . z z z"
         "z z z . z z z . z z z"
@@ -73,4 +77,24 @@ form {
         "z z z . z z z . z z z"
         "z z z . z z z . z z z"
         "z z z . z z z . z z z";
+}
+
+#check {
+    padding-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#check button {
+    font-family: "Roboto Mono", monospace;
+    padding: 7px;
+    margin: 5px;
+    background-color: lightblue;
+    cursor: pointer;
+}
+
+#help {
+    padding-top: 20px;
+    text-align: center;
 }
