@@ -72,7 +72,8 @@ class App extends React.Component {
                     <button>Submit Guess</button>
                 </div>
                 <div id="help">
-                    <abbr title="Send your friend(s) the ID of the board or join theirs. Left or right click on a cell to scroll between numbers.">Help?</abbr>
+                    <abbr title="Send your friend(s) the ID of the board or join theirs.
+                    Left or right click on a cell to scroll between numbers."><i>Help?</i></abbr>
                 </div>
             </div>
         );

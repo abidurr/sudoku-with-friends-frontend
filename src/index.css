@@ -78,7 +78,12 @@ input {
         "z z z . z z z . z z z"
         "z z z . z z z . z z z";
 }
-
+/*
+input:nth-child(3n+3) {
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+*/
 #check {
     padding-top: 20px;
     display: flex;
