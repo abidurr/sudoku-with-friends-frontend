@@ -20,7 +20,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
 }
 
 h1 {
@@ -49,7 +49,7 @@ input:hover {
 }
 
 #join-board {
-    font-size: 16px;
+    font-size: 15px;
     width: 340px;
     cursor: text;
     caret-color: auto;
@@ -61,8 +61,13 @@ input:hover {
     font-family: "Roboto Mono", monospace;
     padding: 7px;
     margin: 5px;
-    background-color: lightblue;
+    background-color: rgba(127, 127, 213, .7);
     cursor: pointer;
+    transition: 300ms ease-in-out;
+}
+
+#join-button:hover {
+    background-color: rgba(127, 127, 213, .3);
 }
 
 #sudoku-board {
@@ -99,9 +104,16 @@ input:nth-child(3n+3) {
     font-family: "Roboto Mono", monospace;
     padding: 7px;
     margin: 5px;
-    background-color: lightblue;
     cursor: pointer;
+    background-color: rgba(127, 127, 213, .7);
+    transition: 300ms ease-in-out;
 }
+
+#check button:hover {
+background-color: rgba(127, 127, 213, .3);
+}
+
+
 
 #help {
     padding-top: 20px;
