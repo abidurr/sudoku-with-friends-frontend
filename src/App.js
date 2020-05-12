@@ -80,12 +80,9 @@ class App extends React.Component {
                     <button
                         id="submit-board"
                         onClick={() => {
-                            const boardName = document.getElementById(
-                                "join-board"
-                            ).value;
                             console.log(
-                                store.subscribeToSubssmionResult(boardName)
-                            );
+                            store.subscribeToSubmissionResult()
+                            )
                         }}
                     >
                         Submit Guess
