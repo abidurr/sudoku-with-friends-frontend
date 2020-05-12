@@ -2,8 +2,8 @@ import axios from 'axios';
 import io from 'socket.io-client';
 const BASE_URL = "https://wedoku.herokuapp.com/";
 
-
 let socket = undefined;
+
 let joinedBoard = undefined;
 let updatedCells = undefined;
 let submissionResult = undefined;
@@ -56,6 +56,10 @@ export function joinBoard(channel) {
 
 export function updateCell(row, col, val) {
     socket.emit("updateCell", { row, col, val });
+}
+
+export function submitBoard() {
+    socket.emit("submitBoard");
 }
 
 export function subscribeToJoinedBoard(fn) {

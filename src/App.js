@@ -37,7 +37,9 @@ class App extends React.Component {
         store.createBoard();
         store.subscribeToUpdatedCells((cells) => {
             const { puzzle } = this.state;
-            cells.forEach(({ row, col, val }) => (puzzle[row * 9 + col] = val));
+            cells.forEach(
+                ({ row, col, val }) => (puzzle[row * 9 + col] = val)
+            );
             this.setState({ puzzle });
         });
     }
@@ -80,9 +82,10 @@ class App extends React.Component {
                     <button
                         id="submit-board"
                         onClick={() => {
+                            store.submitBoard();
                             console.log(
                             store.subscribeToSubmissionResult()
-                            )
+                            );
                         }}
                     >
                         Submit Guess
