@@ -1,6 +1,6 @@
 import axios from 'axios';
 import io from 'socket.io-client';
-const BASE_URL = "https://lit-ocean-30640.herokuapp.com/";
+const BASE_URL = "https://wedoku.herokuapp.com/";
 
 
 let socket = undefined;
@@ -58,26 +58,25 @@ export function updateCell(row, col, val) {
     socket.emit("updateCell", { row, col, val });
 }
 
-export function submitBoard() {
-    socket.emit("submitBoard");
-}
-
 export function subscribeToJoinedBoard(fn) {
     joinedBoard = fn;
 }
+
 export function subscribeToUpdatedCells(fn) {
     updatedCells = fn;
 }
+
 export function subscribeToSubmissionResult(fn) {
     submissionResult = fn;
 }
+
 export function subscribeToErrorOccurred(fn) {
     errorOccurred = fn;
 }
 
 export function getUneditableCells(boardName, fn) {
-    axios.get(`https://lit-ocean-30640.herokuapp.com/status/${boardName}`)
-    .then(res => fn(res.data))
-    .catch(err => alert(err)); 
+    axios.get(`https://wedoku.herokuapp.com/status/${boardName}`)
+        .then(res => fn(res.data))
+        .catch(err => alert(err));
 }
 

@@ -83,10 +83,12 @@ class App extends React.Component {
                             const boardName = document.getElementById(
                                 "join-board"
                             ).value;
-                            store.submitBoard(boardName);
+                            console.log(
+                                store.subscribeToSubssmionResult(boardName)
+                            );
                         }}
                     >
-                    Submit Guess
+                        Submit Guess
                     </button>
                 </div>
                 <div id="help">
