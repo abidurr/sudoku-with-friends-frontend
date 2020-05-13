@@ -1,6 +1,6 @@
 import axios from 'axios';
 import io from 'socket.io-client';
-const BASE_URL = "";
+const BASE_URL = "https://wedoku.herokuapp.com";
 
 let socket = undefined;
 
