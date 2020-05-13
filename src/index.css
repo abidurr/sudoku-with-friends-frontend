@@ -123,13 +123,15 @@ background-color: rgba(127, 127, 213, .3);
 /* WARNING: The following CSS is written by a CS student who can't do CSS */
 
 .popup {
-    width: 220px;
-    height: 330px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin: auto auto;
     border: 3px dashed green;
 }
 
 .popup button {
-    width: 110px;
+    width: 50px;
+    text-emphasis: center;
     margin: 5px auto;
 }

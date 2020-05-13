@@ -1,5 +1,6 @@
 {
   "name": "sudoku-with-a-friend-frontend",
+  "homepage": ".",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import io from 'socket.io-client';
-const BASE_URL = "https://wedoku.herokuapp.com/";
+const BASE_URL = "";
 
 let socket = undefined;
 
@@ -81,7 +81,7 @@ export function subscribeToErrorOccurred(fn) {
 }
 
 export function getStatus(boardName, fn) {
-    axios.get(`https://wedoku.herokuapp.com/status/${boardName}`)
+    axios.get(`${BASE_URL}/status/${boardName}`)
         .then(res => fn(res.data))
         .catch(err => alert(err));
 }

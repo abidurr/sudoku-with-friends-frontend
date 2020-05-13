@@ -9,12 +9,13 @@ class App extends React.Component {
         this.state = {
             puzzle: new Array(81),
             uneditable: new Array(81),
+            verdict: false,
             time: 0,
             penalty: 0,
             showPopup: false,
-            submissionResult : null,
         };
         this.countUp = this.countUp.bind(this);
+        setInterval(this.countUp, 1000);
     }
 
     cycleCell = (index, delta) => () => {
@@ -52,10 +53,11 @@ class App extends React.Component {
                 status.uneditable.forEach(({ row, col }) => {
                     uneditable[row * 9 + col] = true;
                 });
-                this.setState({ uneditable });
-                this.setState({ time: status.time });
-                this.setState({ penalty: status.penalty });
-                console.log(status);
+                this.setState({ 
+                    uneditable,
+                    time: status.time,
+                    penalty: status.penalty,
+                 });
             });
         });
         store.createBoard();
@@ -65,12 +67,13 @@ class App extends React.Component {
             this.setState({ puzzle });
         });
         store.subscribeToSubmissionResult((res) => {
-            // res: {verdict: book, time: int, penalty: int}
-            this.setState({submissionResult: res, showPopup: true});
+            const { time, penalty, verdict } = res;
+            this.setState({ showPopup: true, time, penalty, verdict });
         });
     }
 
     render() {
+        const { verdict, penalty, time } = this.state;
         return (
             <div className="App">
                 <h1>Sudoku With Friends</h1>
@@ -123,7 +126,7 @@ class App extends React.Component {
                 <Popup
                     show={this.state.showPopup}
                     onPopupClose={() => this.setState({ showPopup: false })}
-                    res={this.state.submissionResult}
+                    res={{ verdict, time, penalty }}
                 />
 
                 <div id="help">
