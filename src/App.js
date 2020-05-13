@@ -8,7 +8,10 @@ class App extends React.Component {
         this.state = {
             puzzle: new Array(81),
             uneditable: new Array(81),
+            time: 0,
+            penalty: 0,
         };
+        this.countUp = this.countUp.bind(this)
     }
 
     cycleCell = (index, delta) => () => {
@@ -22,6 +25,21 @@ class App extends React.Component {
         console.log(row, col, newVal);
     };
 
+    secondsToHms(d) {
+        d = Number(d);
+        const h = Math.floor(d / 3600);
+        const m = Math.floor((d % 3600) / 60);
+        const s = Math.floor((d % 3600) % 60);
+        const hDisplay = h > 0 ? h + (h === 1 ? " hr, " : " hrs, ") : "";
+        const mDisplay = m > 0 ? m + (m === 1 ? " min, " : " mins, ") : "";
+        const sDisplay = s > 0 ? s + (s === 1 ? " sec" : " secs") : "";
+        return hDisplay + mDisplay + sDisplay;
+    }
+
+    countUp() {
+        this.setState( ({ time }) => ({ time: time + 1 }));
+    }
+
     componentDidMount() {
         store.connectToServer((board) => {
             document.getElementById("server").innerHTML = board;
@@ -32,14 +50,16 @@ class App extends React.Component {
                     uneditable[row * 9 + col] = true;
                 });
                 this.setState({ uneditable });
+                this.setState({ time: status.time });
+                setInterval(this.countUp, 1000);
+                this.setState({ penalty: status.penalty });
+                console.log(status);
             });
         });
         store.createBoard();
         store.subscribeToUpdatedCells((cells) => {
             const { puzzle } = this.state;
-            cells.forEach(
-                ({ row, col, val }) => (puzzle[row * 9 + col] = val)
-            );
+            cells.forEach(({ row, col, val }) => (puzzle[row * 9 + col] = val));
             this.setState({ puzzle });
         });
     }
@@ -77,15 +97,15 @@ class App extends React.Component {
                     ))}
                 </form>
                 <div id="check">
-                    <div id="timer">Timer:</div>
-                    <div id="penalty">Penalty:</div>
+                    <div id="timer">
+                        Timer: {!this.state.time ? "0" : this.secondsToHms(this.state.time)}{" "}
+                    </div>
+                    <div id="penalty">Penalty: {this.state.penalty} </div>
                     <button
                         id="submit-board"
                         onClick={() => {
                             store.submitBoard();
-                            console.log(
-                            store.subscribeToSubmissionResult()
-                            );
+                            console.log(store.subscribeToSubmissionResult());
                         }}
                     >
                         Submit Guess
