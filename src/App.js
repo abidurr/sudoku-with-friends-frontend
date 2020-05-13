@@ -1,6 +1,7 @@
 import React from "react";
 import * as store from "./store";
 import Cell from "./components/Cell";
+import Popup from "./components/Popup"
 
 class App extends React.Component {
     constructor(props) {
@@ -10,8 +11,10 @@ class App extends React.Component {
             uneditable: new Array(81),
             time: 0,
             penalty: 0,
+            showPopup: false,
+            submissionResult : null,
         };
-        this.countUp = this.countUp.bind(this)
+        this.countUp = this.countUp.bind(this);
     }
 
     cycleCell = (index, delta) => () => {
@@ -37,13 +40,13 @@ class App extends React.Component {
     }
 
     countUp() {
-        this.setState( ({ time }) => ({ time: time + 1 }));
+        this.setState(({ time }) => ({ time: time + 1 }));
     }
 
     componentDidMount() {
         store.connectToServer((board) => {
             document.getElementById("server").innerHTML = board;
-            store.getUneditableCells(board, (status) => {
+            store.getStatus(board, (status) => {
                 console.log(JSON.stringify(status, undefined, 4));
                 let uneditable = new Array(81);
                 status.uneditable.forEach(({ row, col }) => {
@@ -51,7 +54,6 @@ class App extends React.Component {
                 });
                 this.setState({ uneditable });
                 this.setState({ time: status.time });
-                setInterval(this.countUp, 1000);
                 this.setState({ penalty: status.penalty });
                 console.log(status);
             });
@@ -61,6 +63,10 @@ class App extends React.Component {
             const { puzzle } = this.state;
             cells.forEach(({ row, col, val }) => (puzzle[row * 9 + col] = val));
             this.setState({ puzzle });
+        });
+        store.subscribeToSubmissionResult((res) => {
+            // res: {verdict: book, time: int, penalty: int}
+            this.setState({submissionResult: res, showPopup: true});
         });
     }
 
@@ -98,19 +104,28 @@ class App extends React.Component {
                 </form>
                 <div id="check">
                     <div id="timer">
-                        Timer: {!this.state.time ? "0" : this.secondsToHms(this.state.time)}{" "}
+                        Timer:{" "}
+                        {!this.state.time
+                            ? "0"
+                            : this.secondsToHms(this.state.time)}{" "}
                     </div>
                     <div id="penalty">Penalty: {this.state.penalty} </div>
                     <button
                         id="submit-board"
                         onClick={() => {
                             store.submitBoard();
-                            console.log(store.subscribeToSubmissionResult());
                         }}
                     >
                         Submit Guess
                     </button>
                 </div>
+
+                <Popup
+                    show={this.state.showPopup}
+                    onPopupClose={() => this.setState({ showPopup: false })}
+                    res={this.state.submissionResult}
+                />
+
                 <div id="help">
                     <abbr
                         title="Send your friend(s) the ID of the board or join theirs.

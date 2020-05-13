@@ -34,7 +34,9 @@ export function connectToServer(jB, uC, sR, eO) {
     });
 
     socket.on("submissionResult", (res) => {
-        if (typeof (submissionResullt) === 'function') {
+        console.log("Called hoise");
+        console.log(typeof(submissionResult));
+        if (typeof (submissionResult) === 'function') {
             submissionResult(res);
         }
     });
@@ -78,7 +80,7 @@ export function subscribeToErrorOccurred(fn) {
     errorOccurred = fn;
 }
 
-export function getUneditableCells(boardName, fn) {
+export function getStatus(boardName, fn) {
     axios.get(`https://wedoku.herokuapp.com/status/${boardName}`)
         .then(res => fn(res.data))
         .catch(err => alert(err));
