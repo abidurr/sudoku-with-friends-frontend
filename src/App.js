@@ -119,7 +119,7 @@ class App extends React.Component {
                             store.submitBoard();
                         }}
                     >
-                        Submit Guess
+                        Submit Final Guess
                     </button>
                 </div>
 
