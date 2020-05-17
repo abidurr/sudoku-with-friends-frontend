@@ -29,7 +29,7 @@ h1 {
 
 input {
     font-family: "Roboto Mono", monospace;
-    border: 1px solid gray; 
+    border: 1px solid gray;
     padding: 5px;
     text-align: center;
     font-size: 30px;
@@ -61,13 +61,13 @@ input:hover {
     font-family: "Roboto Mono", monospace;
     padding: 7px;
     margin: 5px;
-    background-color: rgba(127, 127, 213, .7);
+    background-color: rgba(127, 127, 213, 0.7);
     cursor: pointer;
     transition: 300ms ease-in-out;
 }
 
 #join-button:hover {
-    background-color: rgba(127, 127, 213, .3);
+    background-color: rgba(127, 127, 213, 0.3);
 }
 
 #sudoku-board {
@@ -76,16 +76,6 @@ input:hover {
     display: grid;
     grid-template-columns: repeat(9, 1fr);
     grid-gap: 3px;
-    grid-template-areas:
-        "z z z . z z z . z z z"
-        "z z z . z z z . z z z"
-        "z z z . z z z . z z z"
-        "z z z . z z z . z z z"
-        "z z z . z z z . z z z"
-        "z z z . z z z . z z z"
-        "z z z . z z z . z z z"
-        "z z z . z z z . z z z"
-        "z z z . z z z . z z z";
 }
 /*
 input:nth-child(3n+3) {
@@ -105,15 +95,13 @@ input:nth-child(3n+3) {
     padding: 7px;
     margin: 5px;
     cursor: pointer;
-    background-color: rgba(127, 127, 213, .7);
+    background-color: rgba(127, 127, 213, 0.7);
     transition: 300ms ease-in-out;
 }
 
 #check button:hover {
-background-color: rgba(127, 127, 213, .3);
+    background-color: rgba(127, 127, 213, 0.3);
 }
-
-
 
 #help {
     padding-top: 20px;
@@ -134,4 +122,41 @@ background-color: rgba(127, 127, 213, .3);
     width: 50px;
     text-emphasis: center;
     margin: 5px auto;
+}
+
+@media only screen and (max-width: 600px) {
+    #sudoku-board {
+        background: url(./img/lines.png);
+        background-size: cover;
+        display: grid;
+        max-width: 300px;
+        grid-template-columns: repeat(9, 1fr);
+        grid-gap: 1px;
+        margin: auto;
+    }
+
+    input {
+        font-family: "Roboto Mono", monospace;
+        border: 1px solid gray;
+        padding: px;
+        text-align: center;
+        font-size: 15px;
+        width: 20px;
+        cursor: pointer;
+        caret-color: transparent;
+        user-select: none;
+    }
+
+    #join-board {
+        font-size: 14px;
+        width: 200px;
+    }
+
+    #info {
+        font-size: 14px;
+    }
+
+    #check {
+        flex-direction: column;
+    }
 }
