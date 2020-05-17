@@ -1,7 +1,7 @@
 import React from "react";
 import * as store from "./store";
 import Cell from "./components/Cell";
-import Popup from "./components/Popup"
+import Popup from "./components/Popup";
 
 class App extends React.Component {
     constructor(props) {

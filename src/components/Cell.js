@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 /** 
 function handleInputClick(cellVal, index) {
         let newVal = parseInt(document.getElementById(`txtbx${index}`).value) + 1;
