@@ -1,6 +1,8 @@
-import axios from 'axios';
-import io from 'socket.io-client';
-const BASE_URL = "https://wedoku.herokuapp.com";
+import axios from "axios";
+import io from "socket.io-client";
+const BASE_URL = "";
+// TODO: comment above line and uncomment below line for dev and test on local machine
+// const BASE_URL = "https://wedoku.herokuapp.com";
 
 let socket = undefined;
 
@@ -22,27 +24,27 @@ export function connectToServer(jB, uC, sR, eO) {
     });
 
     socket.on("joinedBoard", (channelName) => {
-        if (typeof (joinedBoard) === 'function') {
+        if (typeof joinedBoard === "function") {
             joinedBoard(channelName);
         }
     });
 
     socket.on("updatedCells", (cells) => {
-        if (typeof (updatedCells) === 'function') {
+        if (typeof updatedCells === "function") {
             updatedCells(cells);
         }
     });
 
     socket.on("submissionResult", (res) => {
         console.log("Called hoise");
-        console.log(typeof(submissionResult));
-        if (typeof (submissionResult) === 'function') {
+        console.log(typeof submissionResult);
+        if (typeof submissionResult === "function") {
             submissionResult(res);
         }
     });
 
     socket.on("errorOccurred", (err) => {
-        if (typeof (errorOccurred) === 'function') {
+        if (typeof errorOccurred === "function") {
             errorOccurred(err);
         }
     });
@@ -81,8 +83,8 @@ export function subscribeToErrorOccurred(fn) {
 }
 
 export function getStatus(boardName, fn) {
-    axios.get(`${BASE_URL}/status/${boardName}`)
-        .then(res => fn(res.data))
-        .catch(err => alert(err));
+    axios
+        .get(`${BASE_URL}/status/${boardName}`)
+        .then((res) => fn(res.data))
+        .catch((err) => alert(err));
 }
-

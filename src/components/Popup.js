@@ -1,4 +1,6 @@
 import React from "react";
+import TickLogo from "../img/tick.png";
+import CrossLogo from "../img/cross.png";
 
 function secondsToHms(d) {
     d = Number(d);
@@ -11,26 +13,29 @@ function secondsToHms(d) {
     return hDisplay + mDisplay + sDisplay;
 }
 
-export default function Popup({show, onPopupClose, res}) {
+export default function Popup({ show, onPopupClose, res }) {
     if (show === true) {
         let msg = "";
-        let time = secondsToHms(res.finishTime);
-        console.log(`Finish time is ${res.finishTime}`);
-        console.log(msg, time);
+        let finishTimeDisplay = secondsToHms(res.finishTime);
         if (res.verdict === true) {
-            msg = `Congrats! You finished the puzzle in ${time}.`;
+            msg = `Congrats! You finished the puzzle in ${finishTimeDisplay}.`;
         } else {
-            msg = "Your final guess is wrong!";
+            msg = "Your guess is wrong!";
         }
+        const logo = <img alt="" src={res.verdict ? TickLogo : CrossLogo} />;
         return (
             <div class="popup">
-                <p>{msg} </p> 
-                <button onClick={() => {onPopupClose()}}>
+                {logo}
+                <p>{msg}</p>
+                <button
+                    onClick={() => {
+                        onPopupClose();
+                    }}
+                >
                     Okay
-                </button> 
-                
+                </button>
             </div>
-        )
+        );
     } else {
         return null;
     }

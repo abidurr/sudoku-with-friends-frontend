@@ -12,6 +12,7 @@ class App extends React.Component {
             verdict: false,
             time: 0,
             penalty: 0,
+            finishTime: -1,
             showPopup: false,
         };
         this.countUp = this.countUp.bind(this);
@@ -26,7 +27,6 @@ class App extends React.Component {
         if (newVal < 0) newVal = 9;
         if (newVal > 9) newVal = 0;
         store.updateCell(row, col, newVal);
-        console.log(row, col, newVal);
     };
 
     secondsToHms(d) {
@@ -48,16 +48,16 @@ class App extends React.Component {
         store.connectToServer((board) => {
             document.getElementById("server").innerHTML = board;
             store.getStatus(board, (status) => {
-                console.log(JSON.stringify(status, undefined, 4));
                 let uneditable = new Array(81);
                 status.uneditable.forEach(({ row, col }) => {
                     uneditable[row * 9 + col] = true;
                 });
-                this.setState({ 
+                this.setState({
                     uneditable,
                     time: status.time,
                     penalty: status.penalty,
-                 });
+                    finishTime: status.finishTime,
+                });
             });
         });
         store.createBoard();
@@ -67,13 +67,20 @@ class App extends React.Component {
             this.setState({ puzzle });
         });
         store.subscribeToSubmissionResult((res) => {
-            const { time, penalty, verdict } = res;
-            this.setState({ showPopup: true, time, penalty, verdict });
+            const { time, penalty, verdict, finishTime } = res;
+            this.setState({
+                showPopup: true,
+                time,
+                penalty,
+                verdict,
+                finishTime,
+            });
         });
+        store.subscribeToErrorOccurred(alert);
     }
 
     render() {
-        const { verdict, penalty, time } = this.state;
+        const { verdict, penalty, time, finishTime } = this.state;
         return (
             <div className="App">
                 <h1>Sudoku With Friends</h1>
@@ -110,23 +117,23 @@ class App extends React.Component {
                         Timer:{" "}
                         {!this.state.time
                             ? "0"
-                            : this.secondsToHms(this.state.time)}{" "}
+                            : this.secondsToHms(this.state.time)}
                     </div>
                     <div id="penalty">Penalty: {this.state.penalty} </div>
-                    <button
-                        id="submit-board"
-                        onClick={() => {
-                            store.submitBoard();
-                        }}
-                    >
-                        Submit Final Guess
+                    {finishTime >= 0 ? (
+                        <div id="finish-time">
+                            Finish: {this.secondsToHms(finishTime)}{" "}
+                        </div>
+                    ) : null}
+                    <button id="submit-board" onClick={store.submitBoard}>
+                        Submit Guess
                     </button>
                 </div>
 
                 <Popup
                     show={this.state.showPopup}
                     onPopupClose={() => this.setState({ showPopup: false })}
-                    res={{ verdict, time, penalty }}
+                    res={{ verdict, penalty, finishTime }}
                 />
 
                 <div id="help">
