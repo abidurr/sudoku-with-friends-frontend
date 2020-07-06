@@ -1,6 +1,6 @@
 import axios from 'axios';
 import io from 'socket.io-client';
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = '';
 // TODO: comment above line and uncomment below line for dev and test on local machine
 // const BASE_URL = 'https://wedoku.herokuapp.com';
 
