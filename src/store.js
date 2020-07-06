@@ -1,8 +1,8 @@
 import axios from 'axios';
 import io from 'socket.io-client';
-export const BASE_URL = 'http://localhost:3000';
+const BASE_URL = 'http://localhost:3000';
 // TODO: comment above line and uncomment below line for dev and test on local machine
-// export const BASE_URL = 'https://wedoku.herokuapp.com';
+// const BASE_URL = 'https://wedoku.herokuapp.com';
 
 let socket = undefined;
 

@@ -5,7 +5,7 @@ import Popup from './components/Popup';
 import { secondsToHms, copyToClipboard } from './utils';
 
 function getShareLink(boardName) {
-    return `${store.BASE_URL}/${boardName}`;
+    return window.location.origin + '/' + boardName;
 }
 
 class App extends React.Component {
