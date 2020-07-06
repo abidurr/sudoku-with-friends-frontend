@@ -2,22 +2,17 @@ import React from 'react';
 import * as store from './store';
 import Cell from './components/Cell';
 import Popup from './components/Popup';
+import { secondsToHms, copyToClipboard } from './utils';
 
-const secondsToHms = d => {
-    d = Number(d);
-    const h = Math.floor(d / 3600);
-    const m = Math.floor((d % 3600) / 60);
-    const s = Math.floor((d % 3600) % 60);
-    const hDisplay = h > 0 ? h + (h === 1 ? ' hr ' : ' hrs ') : '';
-    const mDisplay = m > 0 ? m + (m === 1 ? ' min ' : ' mins ') : '';
-    const sDisplay = s > 0 ? s + (s === 1 ? ' sec' : ' secs') : '';
-    return hDisplay + mDisplay + sDisplay;
-};
+function getShareLink(boardName) {
+    return `${store.BASE_URL}/${boardName}`;
+}
 
 class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            boardName: '',
             puzzle: new Array(81),
             uneditable: new Array(81),
             verdict: false,
@@ -46,7 +41,6 @@ class App extends React.Component {
     joinedBoardHandler = board => {
         document.getElementById('server').innerHTML = board;
         store.getStatus(board, status => {
-            console.log(status);
             let uneditable = new Array(81);
             status.uneditable.forEach(({ row, col }) => {
                 uneditable[row * 9 + col] = true;
@@ -58,6 +52,7 @@ class App extends React.Component {
                 finishTime: status.finishTime,
             });
         });
+        this.setState({ boardName: board });
     };
 
     updatedCellsHandler = cells => {
@@ -83,28 +78,38 @@ class App extends React.Component {
         store.subscribeToSubmissionResult(this.submissionResultHandler);
         store.subscribeToErrorOccurred(alert);
         store.connectToServer();
-        store.createBoard();
+
+        const boardName = window.location.pathname.substr(1);
+        if (boardName === '') {
+            store.createBoard();
+        } else {
+            store.subscribeToErrorOccurred(err => {
+                alert(err + "\nYou'll play in a new board.");
+                window.location.replace(window.location.origin);
+            });
+            store.subscribeToJoinedBoard(board => {
+                store.subscribeToErrorOccurred(alert);
+                this.joinedBoardHandler(board);
+            });
+            store.joinBoard(boardName);
+        }
     }
 
     render() {
-        const { verdict, penalty, time, finishTime } = this.state;
+        const { boardName, verdict, penalty, time, finishTime } = this.state;
         return (
             <div className="App">
                 <h1>Sudoku With Friends</h1>
                 <div id="info">
-                    You are on board:
-                    <div id="server"></div>
-                    <input type="text" name="join-board" id="join-board" />
+                    Share this link with friends to play together:
+                    <div id="server">{getShareLink(boardName)}</div>
                     <button
                         id="join-button"
                         onClick={() => {
-                            const boardName = document.getElementById(
-                                'join-board'
-                            ).value;
-                            store.joinBoard(boardName);
+                            copyToClipboard(getShareLink(boardName));
                         }}
                     >
-                        Join Board
+                        Copy Link
                     </button>
                 </div>
                 <form id="sudoku-board">
